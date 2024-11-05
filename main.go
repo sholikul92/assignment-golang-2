@@ -62,7 +62,13 @@ func Register(id string, name string, major string) string {
 }
 
 func GetStudyProgram(code string) string {
-	return "" // TODO: replace this
+	studyProgram, found := StudentStudyPrograms[code]
+
+	if !found {
+		return "Kode program studi tidak ditemukan"
+	}
+
+	return studyProgram // TODO: replace this
 }
 
 func ModifyStudent(programStudi, nama string, fn studentModifier) string {
@@ -74,7 +80,7 @@ func UpdateStudyProgram(programStudi string, students *string) {
 }
 
 func main() {
-	fmt.Println(Register("A12345", "Aditira", "TI"))
+	fmt.Println(GetStudyProgram("TI"))
 	// fmt.Println("Selamat datang di Student Portal!")
 
 	// for {
