@@ -42,7 +42,23 @@ func Login(id string, name string) string {
 }
 
 func Register(id string, name string, major string) string {
-	return "" // TODO: replace this
+	if id == "" || name == "" || major == "" {
+		return "ID, Name or Major is undefined!"
+	}
+
+	for _, students := range Students {
+		idExist := strings.Contains(students, id)
+
+		if idExist {
+			return "Registrasi gagal: id sudah digunakan"
+		}
+	}
+
+	newStudent := fmt.Sprintf("%s_%s_%s", id, name, major)
+	Students = append(Students, newStudent)
+
+	result := fmt.Sprintf("Registrasi berhasil: %s (%s)", name, major)
+	return result // TODO: replace this
 }
 
 func GetStudyProgram(code string) string {
@@ -58,7 +74,7 @@ func UpdateStudyProgram(programStudi string, students *string) {
 }
 
 func main() {
-	fmt.Println(Login("A1234", "Aditira"))
+	fmt.Println(Register("A12345", "Aditira", "TI"))
 	// fmt.Println("Selamat datang di Student Portal!")
 
 	// for {
