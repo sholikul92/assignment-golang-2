@@ -1,6 +1,7 @@
 package main
 
 import (
+	"a21hc3NpZ25tZW50/helper"
 	"fmt"
 	"strings"
 )
@@ -58,7 +59,7 @@ func Register(id string, name string, major string) string {
 	Students = append(Students, newStudent)
 
 	result := fmt.Sprintf("Registrasi berhasil: %s (%s)", name, major)
-	return result // TODO: replace this
+	return result
 }
 
 func GetStudyProgram(code string) string {
@@ -68,85 +69,105 @@ func GetStudyProgram(code string) string {
 		return "Kode program studi tidak ditemukan"
 	}
 
-	return studyProgram // TODO: replace this
+	return studyProgram
 }
 
 func ModifyStudent(programStudi, nama string, fn studentModifier) string {
-	return "" // TODO: replace this
+	var indexStudent int
+	for index, students := range Students {
+		nameFound := strings.Contains(students, nama)
+
+		if nameFound {
+			indexStudent = index
+			break
+		} else {
+			indexStudent = -1
+		}
+	}
+
+	if indexStudent == -1 {
+		return "Mahasiswa tidak ditemukan."
+	}
+
+	fn(programStudi, &Students[indexStudent])
+
+	result := "Program studi mahasiswa berhasil diubah."
+	return result
 }
 
 func UpdateStudyProgram(programStudi string, students *string) {
-	// TODO: answer here
+	student := strings.Split(*students, "_")
+	studentWithStudyProgramUpdate := fmt.Sprintf("%s_%s_%s", student[0], student[1], programStudi)
+	*students = studentWithStudyProgramUpdate
 }
 
 func main() {
-	fmt.Println(GetStudyProgram("TI"))
-	// fmt.Println("Selamat datang di Student Portal!")
+	fmt.Println("Selamat datang di Student Portal!")
 
-	// for {
-	// 	helper.ClearScreen()
-	// 	for i, student := range Students {
-	// 		fmt.Println(i+1, student)
-	// 	}
+	for {
+		helper.ClearScreen()
+		for i, student := range Students {
+			fmt.Println(i+1, student)
+		}
 
-	// 	fmt.Println("\nPilih menu:")
-	// 	fmt.Println("1. Login")
-	// 	fmt.Println("2. Register")
-	// 	fmt.Println("3. Get Program Study")
-	// 	fmt.Println("4. Change student study program")
-	// 	fmt.Println("5. Keluar")
+		fmt.Println("\nPilih menu:")
+		fmt.Println("1. Login")
+		fmt.Println("2. Register")
+		fmt.Println("3. Get Program Study")
+		fmt.Println("4. Change student study program")
+		fmt.Println("5. Keluar")
 
-	// 	var pilihan string
-	// 	fmt.Print("Masukkan pilihan Anda: ")
-	// 	fmt.Scanln(&pilihan)
+		var pilihan string
+		fmt.Print("Masukkan pilihan Anda: ")
+		fmt.Scanln(&pilihan)
 
-	// 	switch pilihan {
-	// 	case "1":
-	// 		helper.ClearScreen()
-	// 		var id, name string
-	// 		fmt.Print("Masukkan id: ")
-	// 		fmt.Scan(&id)
-	// 		fmt.Print("Masukkan name: ")
-	// 		fmt.Scan(&name)
+		switch pilihan {
+		case "1":
+			helper.ClearScreen()
+			var id, name string
+			fmt.Print("Masukkan id: ")
+			fmt.Scan(&id)
+			fmt.Print("Masukkan name: ")
+			fmt.Scan(&name)
 
-	// 		fmt.Println(Login(id, name))
+			fmt.Println(Login(id, name))
 
-	// 		helper.Delay(5)
-	// 	case "2":
-	// 		helper.ClearScreen()
-	// 		var id, name, jurusan string
-	// 		fmt.Print("Masukkan id: ")
-	// 		fmt.Scan(&id)
-	// 		fmt.Print("Masukkan name: ")
-	// 		fmt.Scan(&name)
-	// 		fmt.Print("Masukkan jurusan: ")
-	// 		fmt.Scan(&jurusan)
-	// 		fmt.Println(Register(id, name, jurusan))
+			helper.Delay(5)
+		case "2":
+			helper.ClearScreen()
+			var id, name, jurusan string
+			fmt.Print("Masukkan id: ")
+			fmt.Scan(&id)
+			fmt.Print("Masukkan name: ")
+			fmt.Scan(&name)
+			fmt.Print("Masukkan jurusan: ")
+			fmt.Scan(&jurusan)
+			fmt.Println(Register(id, name, jurusan))
 
-	// 		helper.Delay(5)
-	// 	case "3":
-	// 		helper.ClearScreen()
-	// 		var kode string
-	// 		fmt.Print("Masukkan kode: ")
-	// 		fmt.Scan(&kode)
+			helper.Delay(5)
+		case "3":
+			helper.ClearScreen()
+			var kode string
+			fmt.Print("Masukkan kode: ")
+			fmt.Scan(&kode)
 
-	// 		fmt.Println(GetStudyProgram(kode))
-	// 		helper.Delay(5)
-	// 	case "4":
-	// 		helper.ClearScreen()
-	// 		var nama, programStudi string
-	// 		fmt.Print("Masukkan nama mahasiswa: ")
-	// 		fmt.Scanln(&nama)
-	// 		fmt.Print("Masukkan program studi baru: ")
-	// 		fmt.Scanln(&programStudi)
+			fmt.Println(GetStudyProgram(kode))
+			helper.Delay(5)
+		case "4":
+			helper.ClearScreen()
+			var nama, programStudi string
+			fmt.Print("Masukkan nama mahasiswa: ")
+			fmt.Scanln(&nama)
+			fmt.Print("Masukkan program studi baru: ")
+			fmt.Scanln(&programStudi)
 
-	// 		fmt.Println(ModifyStudent(programStudi, nama, UpdateStudyProgram))
-	// 		helper.Delay(5)
-	// 	case "5":
-	// 		fmt.Println("Terima kasih telah menggunakan Student Portal.")
-	// 		return
-	// 	default:
-	// 		fmt.Println("Pilihan tidak valid.")
-	// 	}
-	// }
+			fmt.Println(ModifyStudent(programStudi, nama, UpdateStudyProgram))
+			helper.Delay(5)
+		case "5":
+			fmt.Println("Terima kasih telah menggunakan Student Portal.")
+			return
+		default:
+			fmt.Println("Pilihan tidak valid.")
+		}
+	}
 }
